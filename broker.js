@@ -3,7 +3,24 @@ const Data = require('./model/data')
 const mongo = require('mongoose')
 const dotenv = require('dotenv')
 dotenv.config();
-var port = {port: 1883}
+var port = normalizePort(process.env.PORT || '1883')
+
+function normalizePort(val) {
+    var port = parseInt(val, 10);
+  
+    if (isNaN(port)) {
+      // named pipe
+      return val;
+    }
+  
+    if (port >= 0) {
+      // port number
+      return port;
+    }
+  
+    return false;
+  }
+
 var broker = new mosca.Server(port)
 
 broker.on('ready', () => {
